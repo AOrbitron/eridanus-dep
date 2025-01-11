@@ -3,7 +3,7 @@ with open("README.md", "r",encoding="utf-8") as fh:
     long_description = fh.read()
 setup(
     name='eridanus-dep',
-    version='0.0.2',
+    version='0.0.3',
     url='https://github.com/avilliai/eridanus-dep',
     author='Alpherg',
     author_email='larea06@gmail.com',
