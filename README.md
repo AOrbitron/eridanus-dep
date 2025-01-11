@@ -7,6 +7,8 @@ eridanus-dep是Eridanus的依赖包，它是Eridanus的核心库，提供了一�
 ## 安装
 ```cmd
 pip install eridanus-dep
+或
+pip install --upgrade eridanus-dep
 ```
 ## 示例
 ```python
@@ -18,7 +20,7 @@ bot = WebSocketBot('ws://127.0.0.1:3001')
 
 @bot.on(GroupMessageEvent)
 async def _(event: GroupMessageEvent):
-    await bot.send(event, 'Hello, world!')  #向消息来源发送 Hello, world!
+    await bot.send(event, 'Hello, world!')
 
 bot.run()
 ```
