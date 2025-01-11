@@ -5,7 +5,7 @@ setup(
     name='eridanus-dep',
     version='0.0.1',
     url='https://github.com/avilliai/eridanus-dep',
-    author='avillia',
+    author='Alpherg',
     author_email='larea06@gmail.com',
     description='轻量化的onebotv11sdk',
     long_description=long_description,
