@@ -1,4 +1,6 @@
 ## 介绍
+eridanus-dep是一个轻量化的onebot v11 sdk。
+
 eridanus-dep是Eridanus的依赖包，它是Eridanus的核心库，提供了一系列的工具和模块，可以帮助开发者快速开发自己的onebot应用。
 
 [Eridanus](https://github.com/avilliai/Eridanus)是基于eridanus-dep开发的onebot应用，你可以在Eridanus中找到很多有用的模块和工具，如事件处理、消息处理、插件管理、数据库连接等。
@@ -20,6 +22,7 @@ bot = WebSocketBot('ws://127.0.0.1:3001')
 
 @bot.on(GroupMessageEvent)
 async def _(event: GroupMessageEvent):
+    print(event)
     await bot.send(event, 'Hello, world!')
 
 bot.run()
