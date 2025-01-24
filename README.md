@@ -19,6 +19,7 @@ from Eridanus.adapters.websocket_adapter import WebSocketBot
 from Eridanus.event.events import GroupMessageEvent
 
 bot = WebSocketBot('ws://127.0.0.1:3001')
+#bot = WebSocketBot('ws://127.0.0.1:3001',blocked_loggers=["DEBUG", "INFO_MSG"]) #像这样屏蔽指定logger
 
 @bot.on(GroupMessageEvent)
 async def _(event: GroupMessageEvent):
