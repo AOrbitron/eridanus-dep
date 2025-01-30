@@ -12,6 +12,7 @@ pip install eridanus-dep
 或
 pip install --upgrade eridanus-dep
 ```
+需要开启onebot实现的正向ws端口3001，access_token留空不要设置。
 ## 示例
 ```python
 
