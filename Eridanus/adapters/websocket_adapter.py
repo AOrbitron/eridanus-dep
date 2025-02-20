@@ -115,7 +115,7 @@ class WebSocketBot:
 
     async def _connect(self):
         try:
-            self.websocket = await websockets.connect(self.uri)
+            self.websocket = await websockets.connect(self.uri,max_size=None)
             self.logger.info_msg("WebSocket 连接已建立")
         except Exception as e:
             self.logger.error(f"WebSocket 连接出现错误: {e}")
@@ -230,7 +230,6 @@ class WebSocketBot:
             return await self.send_to_server(event, message_chain)
         except Exception as e:
             self.logger.error(f"发送消息时出现错误: {e}", exc_info=True)
-
     async def send_friend_message(self, user_id: int, components: list[Union[MessageComponent, str]]):
 
         if isinstance(components, str):
@@ -256,7 +255,6 @@ class WebSocketBot:
             r = await self.send_private_forward_msg(user_id, message)
             return r
         return await self._call_api(data["action"], data["params"])
-
     async def send_group_message(self, group_id: int, components: list[Union[MessageComponent, str]]):
         if isinstance(components, str):
             components = [Text(components)]
