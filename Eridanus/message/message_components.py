@@ -58,7 +58,7 @@ class Text(MessageComponent):
     text: str = Field(description="纯文本")
 
     def __init__(self, text: str) -> None:
-        BaseModel.__init__(self, text=text)
+        super().__init__(text=text)
 
 
 class Face(MessageComponent):
@@ -66,7 +66,7 @@ class Face(MessageComponent):
     id: str = Field(description="QQ 表情 ID")
 
     def __init__(self, id: int | str) -> None:
-        BaseModel.__init__(self, id=str(id))
+        super().__init__(id=str(id))
 
 
 class Image(MessageComponent):
@@ -213,7 +213,7 @@ class Forward(MessageComponent):
     id: Annotated[str, OnlyReceive] = Field(description="合并转发 ID")
 
     def __init__(self, id: str) -> None:
-        BaseModel.__init__(self, id=id)
+        super().__init__(id=id)
 
 
 class Node(MessageComponent):
@@ -229,7 +229,7 @@ class Xml(MessageComponent):
     data: str = Field(description="XML 内容")
 
     def __init__(self, data: str) -> None:
-        BaseModel.__init__(self, data=data)
+        super().__init__(data=data)
 
 
 class Json(MessageComponent):
@@ -237,7 +237,7 @@ class Json(MessageComponent):
     data: str = Field(description="JSON 内容")
 
     def __init__(self, data: str) -> None:
-        BaseModel.__init__(self, data=data)
+        super().__init__(data=data)
 
 class Contact_user(MessageComponent):
     comp_type: str = "contact"
