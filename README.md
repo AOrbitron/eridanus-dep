@@ -1,5 +1,5 @@
 ## 介绍
-eridanus-dep是一个轻量化的onebot v11 sdk。
+eridanus-dep是一个轻量化的onebot v11 sdk，整体风格参考了[yirimirai](https://yiri-mirai.wybxc.cc/)
 
 [Eridanus](https://github.com/avilliai/Eridanus)是基于eridanus-dep开发的onebot应用，你可以通过参考Eridanus的源码来了解eridanus-dep的使用方法。
 ## 安装
