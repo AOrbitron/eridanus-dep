@@ -16,7 +16,7 @@ from collections.abc import Callable, Coroutine
 from ..event.base import EventBase
 from ..event.eventFactory import EventFactory
 from ..message.message_chain import MessageChain
-from ..message.message_components import MessageComponent, Text, Reply, Node, File
+from ..message.message_components import MessageComponent, Text, Reply, Node, File, Music, At, Poke
 from ..utils.logger import get_logger
 
 
@@ -48,13 +48,14 @@ class EventBus:
 
 
 class WebSocketBot:
-    def __init__(self, uri: str,blocked_loggers=None):
+    def __init__(self, uri: str,blocked_loggers=None,all_str_id=False):
         self.uri = uri
         self.websocket: Optional[websockets.WebSocketClientProtocol] = None
         self.logger = get_logger(blocked_loggers)
         self.event_bus = EventBus()
         self.response_callbacks: Dict[str, asyncio.Future] = {}
         self.receive_task: Optional[asyncio.Task] = None
+        self.all_str_id=all_str_id
 
 
     async def _receive(self):
@@ -218,14 +219,27 @@ class WebSocketBot:
             if not isinstance(components, list):
                 components = [components]
             if Quote:
-                components.append(Reply(id=event.message_id))  # 消息引用
+                components.insert(0, Reply(id=event.message_id))
+                #components.append(Reply(id=event.message_id))  # 消息引用
             else:
                 # 将列表中的字符串转换为 Text 对象
                 components = [
                     Text(component) if isinstance(component, str) else component
                     for component in components
                 ]
-
+            if self.all_str_id:
+                for index, item in enumerate(components):
+                    if isinstance(item, Music):
+                        item.id = str(item.id)
+                    elif isinstance(item, At):
+                        item.qq = str(item.qq)
+                    elif isinstance(item, Poke):
+                        item.type = str(item.type)
+                        item.id = str(item.id)
+                    elif isinstance(item, File):
+                        item.file = item.file.replace("file://", "")
+                    elif isinstance(item, Reply):
+                        item.id = str(item.id)
             message_chain = MessageChain(components)
             return await self.send_to_server(event, message_chain)
         except Exception as e:
