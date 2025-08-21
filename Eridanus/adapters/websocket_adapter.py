@@ -39,12 +39,10 @@ class EventBus:
     async def emit(self, event_instance: EventBase) -> None:
         event_type = type(event_instance)
         if handlers := self.handlers.get(event_type):
-            tasks = [asyncio.create_task(handler(event_instance)) for handler in handlers]
-            await asyncio.gather(*tasks)
+            for handler in handlers:
+                asyncio.create_task(handler(event_instance))
         else:
             pass
-            #print(f"未找到处理 {event_type} 的监听器")
-
 
 
 class WebSocketBot:
