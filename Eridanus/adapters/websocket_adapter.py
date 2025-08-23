@@ -47,13 +47,14 @@ class EventBus:
 
 
 class WebSocketBot:
-    def __init__(self, uri: str,blocked_loggers=None):
+    def __init__(self, uri: str,blocked_loggers=None,all_str_id=False):
         self.uri = uri
         self.websocket: Optional[websockets.WebSocketClientProtocol] = None
         self.logger = get_logger(blocked_loggers=blocked_loggers)
         self.event_bus = EventBus()
         self.response_callbacks: Dict[str, asyncio.Future] = {}
         self.receive_task: Optional[asyncio.Task] = None
+        self.all_str_id=all_str_id
 
         self._message_queue = asyncio.Queue()  # 添加消息队列
         self._processing_task: Optional[asyncio.Task] = None  # 添加处理任务
@@ -136,8 +137,14 @@ class WebSocketBot:
         await self._connect()
         if self.websocket:
             self.receive_task = asyncio.create_task(self._receive())
-            while True:
-                await asyncio.sleep(1)
+            self._processing_task = asyncio.create_task(self._process_messages())
+            try:
+                await self.receive_task
+            except Exception as e:
+                self.logger.error(f"接收任务出错: {e}")
+            finally:
+                if self._processing_task and not self._processing_task.done():
+                    self._processing_task.cancel()
 
     async def _connect(self):
         try:
